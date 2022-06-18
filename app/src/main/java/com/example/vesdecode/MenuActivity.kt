@@ -11,6 +11,7 @@ import com.example.vesdecode.databinding.ActivityMenuBinding
 import com.example.vesdecode.models.Product
 import com.example.vesdecode.models.Tag
 import org.json.JSONArray
+import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
 
@@ -97,6 +98,12 @@ class MenuActivity : AppCompatActivity() {
                     }
                 }
                 else array = mutableListOf()
+
+                var priceOld = jsonobj.getString("price_old")
+                var crutch: Int?
+                if (priceOld === "null") crutch = null
+                else crutch = jsonobj.getInt("price_old")
+
                 var product = Product(
                     id = jsonobj.getInt("id"),
                     category_id = jsonobj.getInt("category_id"),
@@ -104,7 +111,7 @@ class MenuActivity : AppCompatActivity() {
                     description = jsonobj.getString("description"),
                     image = jsonobj.getString("image"),
                     price_current = jsonobj.getInt("price_current"),
-                    price_old = null,
+                    price_old = crutch,
                     measure = jsonobj.getInt("measure"),
                     measure_unit = jsonobj.getString("measure_unit"),
                     energy_per_100_grams = jsonobj.getDouble("energy_per_100_grams"),
