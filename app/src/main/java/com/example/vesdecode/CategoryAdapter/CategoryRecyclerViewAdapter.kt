@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vesdecode.R
 import com.example.vesdecode.databinding.ItemCategoryBinding
+import com.example.vesdecode.models.Category
 
 class CategoryRecyclerViewAdapter(items: List<Category>) : RecyclerView.Adapter<CategoryRecyclerViewAdapter.CategoryViewHolder>() {
     var selectedItemPos = -1
