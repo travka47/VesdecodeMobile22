@@ -35,10 +35,34 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="18dp"
-        android:layout_marginBottom="15dp"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rwCategories"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/btnBin"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginVertical="8dp"
+        android:backgroundTint="@color/orange"
+        android:fontFamily="@font/roboto"
+        android:paddingVertical="16sp"
+        android:stateListAnimator="@null"
+        android:text="2160 ₽"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:cornerRadius="8sp"
+        app:icon="@drawable/ic_bin"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/materialize_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rwProducts" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
