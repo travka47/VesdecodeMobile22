@@ -1,9 +1,9 @@
 package com.example.vesdecode
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.vesdecode.models.Category
 import com.example.vesdecode.CategoryAdapter.CategoryRecyclerViewAdapter
 import com.example.vesdecode.ProductAdapter.ProductRecyclerViewAdapter
@@ -11,39 +11,48 @@ import com.example.vesdecode.databinding.ActivityMenuBinding
 import com.example.vesdecode.models.Product
 import com.example.vesdecode.models.Tag
 import org.json.JSONArray
-import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
 
 class MenuActivity : AppCompatActivity() {
-    val arrCategories = mutableListOf<Category>()
-    val arrTags = mutableListOf<Tag>()
-    val arrProducts = mutableListOf<Product>()
 
-    private lateinit var recyclerViewCategory: RecyclerView
-    private lateinit var adapterCategory: CategoryRecyclerViewAdapter
-
-    private lateinit var recyclerViewProduct: RecyclerView
-    private lateinit var adapterProduct: ProductRecyclerViewAdapter
+    private val arrCategories = mutableListOf<Category>()
+    private val arrTags = mutableListOf<Tag>()
+    private val arrProducts = mutableListOf<Product>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        lateinit var binding: ActivityMenuBinding
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu)
+        var binding: ActivityMenuBinding = ActivityMenuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         readJsonCategory()
         readJsonTag()
         readJsonProduct()
-        recyclerViewCategory = findViewById(R.id.rwCategories)
-        adapterCategory = CategoryRecyclerViewAdapter(arrCategories)
-        recyclerViewProduct = findViewById(R.id.rwProducts)
-        adapterProduct = ProductRecyclerViewAdapter(arrProducts)
 
-        recyclerViewCategory.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewCategory.adapter = adapterCategory
-        recyclerViewProduct.adapter = adapterProduct
+        var adapterCategory = CategoryRecyclerViewAdapter(arrCategories)
+        var adapterProduct = ProductRecyclerViewAdapter(arrProducts)
+
+        with(binding.rwCategories) {
+            adapter = adapterCategory
+            layoutManager = LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+        }
+
+        with(binding.rwProducts) {
+            adapter = adapterProduct
+        }
+        adapterProduct.setItemClickListener {
+            val intent = Intent(this, ProductActivity::class.java)
+            intent.putExtra("name", arrProducts[it].name)
+            intent.putExtra("description", arrProducts[it].description)
+            intent.putExtra("measure", arrProducts[it].measure.toString() + " " + arrProducts[it].measure_unit)
+            intent.putExtra("energy_per_100_grams", arrProducts[it].energy_per_100_grams.toString() + " ккал")
+            intent.putExtra("proteins_per_100_grams", arrProducts[it].proteins_per_100_grams.toString() + " г")
+            intent.putExtra("fats_per_100_grams", arrProducts[it].fats_per_100_grams.toString() + " г")
+            intent.putExtra("carbohydrates_per_100_grams", arrProducts[it].carbohydrates_per_100_grams.toString() + " г")
+            intent.putExtra("price_current", "В корзину за " + arrProducts[it].price_current + " ₽")
+            startActivity(intent)
+        }
     }
-
     private fun readJsonCategory() {
         var json: String? = null
         try {

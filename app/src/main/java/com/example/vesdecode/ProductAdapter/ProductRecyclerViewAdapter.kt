@@ -13,13 +13,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vesdecode.R
 import com.example.vesdecode.databinding.ItemCardBinding
-import com.example.vesdecode.models.Category
 import com.example.vesdecode.models.Product
 
 
 class ProductRecyclerViewAdapter(items: List<Product>) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductViewHolder>() {
 
     private val items = items.toMutableList()
+
+    private var itemClickListener: (Int) -> Unit = {}
+
+    fun setItemClickListener(listener: (Int) -> Unit) {
+        itemClickListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
@@ -39,6 +44,13 @@ class ProductRecyclerViewAdapter(items: List<Product>) : RecyclerView.Adapter<Pr
     override fun getItemCount() = items.size
 
     inner class ProductViewHolder(private val binding: ItemCardBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.cvProduct.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) itemClickListener.invoke(position)
+            }
+        }
+
         fun bind(product: Product) {
             if (product.price_old != null) {
                 val price = product.price_current.toString() + " ₽ " + product.price_old.toString() + " ₽"
