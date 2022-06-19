@@ -52,6 +52,11 @@ class MenuActivity : AppCompatActivity() {
             intent.putExtra("price_current", "В корзину за " + arrProducts[it].price_current + " ₽")
             startActivity(intent)
         }
+
+        binding.btnBin.setOnClickListener {
+            val intent = Intent(this, BinActivity::class.java)
+            startActivity(intent)
+        }
     }
     private fun readJsonCategory() {
         var json: String? = null

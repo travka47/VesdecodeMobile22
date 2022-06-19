@@ -39,6 +39,10 @@ class ProductActivity : AppCompatActivity() {
             val intent = Intent(this, MenuActivity::class.java)
             startActivity(intent)
         }
+        binding.btnBin.setOnClickListener {
+            val intent = Intent(this, BinActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }
